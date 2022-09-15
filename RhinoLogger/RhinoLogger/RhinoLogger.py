@@ -3,6 +3,8 @@ import sys
 import traceback
 import logging
 import logging.handlers
+from RhinoLogger.RhinoLoggerObject.RhinoLoggerObject import LoggerConfig
+from typing import NoReturn
 
 
 class ColoredFormatter(logging.Formatter):
@@ -35,17 +37,12 @@ class ColoredFormatter(logging.Formatter):
         return LOG_COLORS.get(level_name, '%s') % msg
 
 
-class Log(object):
-    def __init__(self, loggername='', filename=None, mode='a',
-                 cmdlevel='DEBUG',
-                 filelevel='INFO',
-                 cmdfmt='[%(asctime)s] %(filename)s line:%(lineno)d %(levelname)-8s%(message)s',
-                 filefmt='[%(asctime)s] %(levelname)-8s%(message)s',
-                 cmddatefmt='%H:%M:%S',
-                 filedatefmt='%Y-%m-%d %H:%M:%S',
-                 backup_count=0, limit=20480, when=None, colorful=False):
-        self.filename = filename
-        self.loggername = loggername
+class RhinoLogger(object):
+    __logger = None
+
+    def __init__(self, logger_config: LoggerConfig) -> NoReturn:
+        self.filename = logger_config.filename
+        self.loggername = logger_config.loggername
 
         # 创建 logger 日志文件夹等
         if self.filename is None:
@@ -54,24 +51,24 @@ class Log(object):
         if not os.path.exists(os.path.abspath(os.path.dirname(self.filename))):
             os.makedirs(os.path.abspath(os.path.dirname(self.filename)))
 
-        self.mode = mode
-        self.cmdlevel = cmdlevel
-        self.filelevel = filelevel
+        self.mode = logger_config.mode
+        self.cmdlevel = logger_config.cmdlevel
+        self.filelevel = logger_config.filelevel
 
         if isinstance(self.cmdlevel, str):
             self.cmdlevel = getattr(logging, self.cmdlevel.upper(), logging.DEBUG)
 
         if isinstance(self.filelevel, str):
             self.filelevel = getattr(logging, self.filelevel.upper(), logging.DEBUG)
-            
-        self.filefmt = filefmt
-        self.cmdfmt = cmdfmt
-        self.filedatefmt = filedatefmt
-        self.cmddatefmt = cmddatefmt
-        self.backup_count = backup_count
-        self.limit = limit
-        self.when = when
-        self.colorful = colorful
+
+        self.filefmt = logger_config.filefmt
+        self.cmdfmt = logger_config.cmdfmt
+        self.filedatefmt = logger_config.filedatefmt
+        self.cmddatefmt = logger_config.cmddatefmt
+        self.backup_count = logger_config.backup_count
+        self.limit = logger_config.limit
+        self.when = logger_config.when
+        self.colorful = logger_config.colorful
         self.logger = None
         self.streamhandler = None
         self.filehandler = None
@@ -80,6 +77,12 @@ class Log(object):
             self.cmdfmt = '[%(asctime)s] %(levelname)-8s%(message)s'
             self.cmddatefmt = '%Y-%m-%d %H:%M:%S'
         self.set_logger(cmdlevel=self.cmdlevel)
+
+    @classmethod
+    def get_instance(cls, logger_config: LoggerConfig):
+        if not cls.__logger:
+            cls.__logger = RhinoLogger(logger_config)
+        return cls.__logger
 
     def init_logger(self):
         if self.logger is None:

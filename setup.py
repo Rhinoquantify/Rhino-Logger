@@ -13,5 +13,7 @@ setup(
     license="GPL",
     packages=[
         "RhinoLogger",
+        "RhinoLogger.RhinoLogger",
+        "RhinoLogger.RhinoLoggerObject",
     ]
 )
