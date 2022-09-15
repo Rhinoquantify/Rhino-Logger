@@ -26,7 +26,7 @@ class ColoredFormatter(logging.Formatter):
         COLOR_RESET = '\033[1;0m'
         # Define log color
         LOG_COLORS = {
-            'DEBUG': '%s',
+            'DEBUG': COLOR_BLUE + '%s' + COLOR_RESET,
             'INFO': COLOR_GREEN + '%s' + COLOR_RESET,
             'WARNING': COLOR_YELLOW + '%s' + COLOR_RESET,
             'ERROR': COLOR_RED + '%s' + COLOR_RESET,

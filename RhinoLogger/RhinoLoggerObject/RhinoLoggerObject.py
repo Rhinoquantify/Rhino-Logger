@@ -12,8 +12,8 @@ class LoggerConfig:
     filelevel: Union[LoggerLevel] = LoggerLevel.INFO.value
     cmdfmt: str = '[%(asctime)s] %(filename)s line:%(lineno)d %(levelname)-8s%(message)s'
     filefmt: str = '[%(asctime)s] %(levelname)-8s%(message)s'
-    cmddatefmt: str = '%H:%M:%S',
-    filedatefmt: str = '%Y-%m-%d %H:%M:%S',
+    cmddatefmt: str = '%H:%M:%S'
+    filedatefmt: str = '%Y-%m-%d %H:%M:%S'
     backup_count: int = 5
     limit: int = 20480
     when: Union[LoggerTime] = LoggerTime.D.value
