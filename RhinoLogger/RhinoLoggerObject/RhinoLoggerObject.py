@@ -14,7 +14,7 @@ class LoggerConfig:
     filefmt: str = '[%(asctime)s] %(levelname)-8s%(message)s'
     cmddatefmt: str = '%H:%M:%S',
     filedatefmt: str = '%Y-%m-%d %H:%M:%S',
-    backup_count: int = 0
+    backup_count: int = 5
     limit: int = 20480
     when: Union[LoggerTime] = LoggerTime.D.value
-    colorful: bool = False
+    colorful: bool = True

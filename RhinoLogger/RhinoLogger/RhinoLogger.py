@@ -1,10 +1,11 @@
+import logging
+import logging.handlers
 import os
 import sys
 import traceback
-import logging
-import logging.handlers
-from RhinoLogger.RhinoLoggerObject.RhinoLoggerObject import LoggerConfig
 from typing import NoReturn
+
+from RhinoLogger.RhinoLoggerObject.RhinoLoggerObject import LoggerConfig
 
 
 class ColoredFormatter(logging.Formatter):
@@ -163,6 +164,3 @@ class RhinoLogger(object):
         for file, lineno, function, text in traceback.extract_tb(info[2]):
             self.error('%s line:%s in %s:%s' % (file, lineno, function, text))
         self.error('%s: %s' % info[:2])
-
-
-logger = Log(cmdlevel='info', filename='logs/log.log', backup_count=5, when='D', colorful=True)
