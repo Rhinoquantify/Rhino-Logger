@@ -74,8 +74,8 @@ class RhinoLogger(object):
         self.streamhandler = None
         self.filehandler = None
         if self.cmdlevel > 10:
-            self.filefmt = '[%(asctime)s] %(levelname)-8s%(message)s'
-            self.cmdfmt = '[%(asctime)s] %(levelname)-8s%(message)s'
+            self.filefmt = '[%(asctime)s.%(msecs)03d] %(levelname)-8s%(message)s'
+            self.cmdfmt = '[%(asctime)s.%(msecs)03d] %(levelname)-8s%(message)s'
             self.cmddatefmt = '%Y-%m-%d %H:%M:%S'
         self.set_logger(cmdlevel=self.cmdlevel)
 
@@ -133,13 +133,13 @@ class RhinoLogger(object):
         if isinstance(self.filelevel, str):
             self.filelevel = getattr(logging, self.filelevel.upper(), logging.DEBUG)
         if not "cmdfmt" in kwargs:
-            self.filefmt = '[%(asctime)s] %(filename)s line:%(lineno)d %(levelname)-8s%(message)s'
+            self.filefmt = '[%(asctime)s.%(msecs)03d] %(filename)s line:%(lineno)d %(levelname)-8s%(message)s'
             self.filedatefmt = '%Y-%m-%d %H:%M:%S'
-            self.cmdfmt = '[%(asctime)s] %(filename)s line:%(lineno)d %(levelname)-8s%(message)s'
+            self.cmdfmt = '[%(asctime)s].%(msecs)03d %(filename)s line:%(lineno)d %(levelname)-8s%(message)s'
             self.cmddatefmt = '%H:%M:%S'
             if self.cmdlevel > 10:
-                self.filefmt = '[%(asctime)s] %(levelname)-8s%(message)s'
-                self.cmdfmt = '[%(asctime)s] %(levelname)-8s%(message)s'
+                self.filefmt = '[%(asctime)s.%(msecs)03d] %(levelname)-8s%(message)s'
+                self.cmdfmt = '[%(asctime)s.%(msecs)03d] %(levelname)-8s%(message)s'
                 self.cmddatefmt = '%Y-%m-%d %H:%M:%S'
         self.init_logger()
         self.add_streamhandler()
